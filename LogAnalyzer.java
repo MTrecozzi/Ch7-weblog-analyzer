@@ -63,15 +63,14 @@ public class LogAnalyzer
     
     public int busiestHourt() {
         
-        int busiestHour = -1;
-        
-        int accesses = 0;
+        int busiestHour = 0;      
+        int mostAccesses = 0;
             
         for (int i = 0; i < hourCounts.length; i++) {
-            if (hourCounts[i] > accesses){
+            if (hourCounts[i] > mostAccesses){
              
                 busiestHour = i;
-                accesses = hourCounts[i];
+                mostAccesses = hourCounts[i];
                 
             }
         }
@@ -80,6 +79,26 @@ public class LogAnalyzer
         
     }
     
+    public int quietestHour() {
+        
+        int leastBusyHour = 0;
+        int leastAccesses = -5;
+        
+        for (int i = 0; i < hourCounts.length; i++) {
+            
+            if (leastAccesses == -5);
+                leastAccesses = hourCounts[i];
+            
+            if (hourCounts[i] < leastAccesses) {
+                leastBusyHour = i;
+                leastAccesses = hourCounts[i];
+            }
+            
+        }
+        
+        return leastBusyHour;
+        
+    }
     
     /**
      * Print the lines of data read by the LogfileReader
