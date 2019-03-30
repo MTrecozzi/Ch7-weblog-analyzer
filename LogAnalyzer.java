@@ -1,9 +1,6 @@
-/**
- * Read web server data and analyse hourly access patterns.
- * 
- * @author David J. Barnes and Michael Kölling.
- * @version    2016.02.29
- */
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class LogAnalyzer
 {
     // Where to calculate the hourly access counts.
@@ -34,6 +31,8 @@ public class LogAnalyzer
             hourCounts[hour]++;
         }
     }
+    
+    
 
     /**
      * Print the hourly counts.
@@ -46,6 +45,25 @@ public class LogAnalyzer
         for(int hour = 0; hour < hourCounts.length; hour++) {
             System.out.println(hour + ": " + hourCounts[hour]);
         }
+    }
+    
+    public int numberOfAccesses() {
+        
+        // Using For Loops
+        int totalNumberOfAccesses = 0;
+        
+        for (int i = 0; i < hourCounts.length; i++){
+            totalNumberOfAccesses += hourCounts[i];
+        }
+        
+        //return totalNumberOfAccesses;
+        
+        // Using Streams
+        IntStream stream = Arrays.stream(hourCounts);    
+        return stream.reduce(Integer:: sum).getAsInt();
+        
+        
+        
     }
     
     /**
