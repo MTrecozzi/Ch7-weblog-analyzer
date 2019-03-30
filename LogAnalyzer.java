@@ -75,6 +75,7 @@ public class LogAnalyzer
             }
         }
         
+        // returns the earliest hour with the largest count.
         return busiestHour;
         
     }
