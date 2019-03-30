@@ -47,24 +47,39 @@ public class LogAnalyzer
         }
     }
     
-    public int numberOfAccesses() {
-        
+    public int numberOfAccesses() {      
         // Using For Loops
         int totalNumberOfAccesses = 0;
         
         for (int i = 0; i < hourCounts.length; i++){
             totalNumberOfAccesses += hourCounts[i];
-        }
-        
+        }       
         //return totalNumberOfAccesses;
         
         // Using Streams
         IntStream stream = Arrays.stream(hourCounts);    
-        return stream.reduce(Integer:: sum).getAsInt();
+        return stream.reduce(Integer:: sum).getAsInt();  
+    }
+    
+    public int busiestHourt() {
         
+        int busiestHour = -1;
         
+        int accesses = 0;
+            
+        for (int i = 0; i < hourCounts.length; i++) {
+            if (hourCounts[i] > accesses){
+             
+                busiestHour = i;
+                accesses = hourCounts[i];
+                
+            }
+        }
+        
+        return busiestHour;
         
     }
+    
     
     /**
      * Print the lines of data read by the LogfileReader
