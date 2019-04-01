@@ -24,7 +24,7 @@ public class LogAnalyzer
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[24];
-        dayCounts = new int[31];
+        dayCounts = new int[32];
         monthCounts = new int[13];
         // Create the hourReader to obtain the data.
         hourReader = new LogfileReader(fileName);
@@ -72,12 +72,35 @@ public class LogAnalyzer
      
     }
     
-    public void printAccessesPerMonth() {
+    public void printTotalAccessesPerMonth() {
         
         for (int i = 1; i < monthCounts.length; i++) {
             
             System.out.println("Month #" + i + ": " + monthCounts[i]);
         }
+        
+    }
+    
+    public int quietestMonth() {
+        int leastBusyMonth = 0;
+        int leastAccesses = -5;
+        
+        for (int i = 1; i < monthCounts.length; i++) {
+            
+            if (leastAccesses == -5){
+                leastAccesses = monthCounts[i];
+                leastBusyMonth = i;
+            }
+            
+            if (monthCounts[i] < leastAccesses) {
+             leastBusyMonth = i;
+             leastAccesses = monthCounts[i];
+            }
+            
+        }
+        
+        return leastBusyMonth;
+        
         
     }
     
@@ -102,10 +125,12 @@ public class LogAnalyzer
         int leastBusyDay = 0;
         int leastAccesses = -5;
         
-        for (int i = 1; i <= dayCounts.length; i++) {
+        for (int i = 1; i < dayCounts.length; i++) {
             
-            if (leastAccesses == -5);
+            if (leastAccesses == -5) {
                 leastAccesses = dayCounts[i];
+                leastBusyDay = i;
+            }
             
             if (dayCounts[i] < leastAccesses) {
                 leastBusyDay = i;
