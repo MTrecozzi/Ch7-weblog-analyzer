@@ -170,6 +170,7 @@ public class LogAnalyzer
         return busiestDay;
     }
     // Assignment Complete
+    // Although busiestMonth didn't have its own commit, it was completed alongside averageAccessesPerMonth;
     public int busiestMonth() {
      
      int busiestMonth = 0;
