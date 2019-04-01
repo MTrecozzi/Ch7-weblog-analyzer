@@ -57,7 +57,7 @@ public class LogfileCreator
      */
     public LogEntry createEntry()
     {
-        int year = rand.nextInt(4) + 2011;
+        int year = rand.nextInt(5) + 2011;
         int month = 1 + rand.nextInt(12);
         // Avoid the complexities of days-per-month.
         int day = 1 + rand.nextInt(28);
