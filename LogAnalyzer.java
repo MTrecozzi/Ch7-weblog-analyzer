@@ -1,12 +1,17 @@
+
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class LogAnalyzer
 {
     // Where to calculate the hourly access counts.
     private int[] hourCounts;
+    private int [] dayCounts;
+    
     // Use a LogfileReader to access the data.
-    private LogfileReader reader;
+    private LogfileReader hourReader;
+    private LogfileReader dayReader;
 
     /**
      * Create an object to analyze hourly web accesses.
@@ -16,8 +21,14 @@ public class LogAnalyzer
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[24];
-        // Create the reader to obtain the data.
-        reader = new LogfileReader(fileName);
+        dayCounts = new int[31];
+        // Create the hourReader to obtain the data.
+        hourReader = new LogfileReader(fileName);
+        dayReader = new LogfileReader(fileName);
+        
+        
+        analyzeHourlyData();
+        analyzeDailyData();
     }
 
     /**
@@ -25,11 +36,59 @@ public class LogAnalyzer
      */
     public void analyzeHourlyData()
     {
-        while(reader.hasNext()) {
-            LogEntry entry = reader.next();
+        while(hourReader.hasNext()) {
+            LogEntry entry = hourReader.next();
             int hour = entry.getHour();
             hourCounts[hour]++;
         }
+    }
+    
+    public void analyzeDailyData() {
+     
+        while (dayReader.hasNext()){
+            LogEntry dayEntry = dayReader.next();  
+            
+            int day = dayEntry.getDay();
+            dayCounts[day]++;   
+        }   
+        
+    }
+    
+    public int busiestDay() {    
+        int busiestDay = 0;      
+        int mostAccesses = -5;
+            
+        for (int i = 1; i < dayCounts.length; i++) {
+            if (dayCounts[i] > mostAccesses){
+             
+                busiestDay = i;
+                mostAccesses = dayCounts[i];
+                
+            }
+        }    
+        // returns the earliest hour with the largest count.
+        return busiestDay;
+    }
+    
+    public int quietestDay() {
+        
+        int leastBusyDay = 0;
+        int leastAccesses = -5;
+        
+        for (int i = 1; i <= dayCounts.length; i++) {
+            
+            if (leastAccesses == -5);
+                leastAccesses = dayCounts[i];
+            
+            if (dayCounts[i] < leastAccesses) {
+                leastBusyDay = i;
+                leastAccesses = dayCounts[i];
+            }
+            
+        }
+        
+        return leastBusyDay;
+        
     }
     
     
@@ -125,6 +184,6 @@ public class LogAnalyzer
      */
     public void printData()
     {
-        reader.printData();
+        hourReader.printData();
     }
 }
