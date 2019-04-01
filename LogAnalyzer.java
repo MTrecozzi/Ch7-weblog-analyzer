@@ -61,10 +61,9 @@ public class LogAnalyzer
         return stream.reduce(Integer:: sum).getAsInt();  
     }
     
-    public int busiestHourt() {
-        
+    public int busiestHour() {    
         int busiestHour = 0;      
-        int mostAccesses = 0;
+        int mostAccesses = -5;
             
         for (int i = 0; i < hourCounts.length; i++) {
             if (hourCounts[i] > mostAccesses){
@@ -73,10 +72,30 @@ public class LogAnalyzer
                 mostAccesses = hourCounts[i];
                 
             }
-        }
-        
+        }    
         // returns the earliest hour with the largest count.
         return busiestHour;
+    }
+    
+    public int busiestTwoHourPeriod() {
+     
+        int busiestTwoHourStart = 0;
+        int mostAccesses = 0;
+        
+        for (int i = 0; i < hourCounts.length - 1; i++) {
+            
+            int biHourAccesses = hourCounts[i] + hourCounts[i+1];
+            
+            if (biHourAccesses > mostAccesses) {
+                
+             busiestTwoHourStart = i;
+             mostAccesses = biHourAccesses;
+                
+            }
+            
+        }
+        
+        return busiestTwoHourStart;
         
     }
     
