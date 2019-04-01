@@ -8,10 +8,13 @@ public class LogAnalyzer
     // Where to calculate the hourly access counts.
     private int[] hourCounts;
     private int [] dayCounts;
+    private int[] monthCounts;
     
     // Use a LogfileReader to access the data.
     private LogfileReader hourReader;
     private LogfileReader dayReader;
+    private LogfileReader monthReader;
+    private LogfileReader yearReader;
 
     /**
      * Create an object to analyze hourly web accesses.
@@ -22,13 +25,16 @@ public class LogAnalyzer
         // access counts.
         hourCounts = new int[24];
         dayCounts = new int[31];
+        monthCounts = new int[13];
         // Create the hourReader to obtain the data.
         hourReader = new LogfileReader(fileName);
         dayReader = new LogfileReader(fileName);
+        monthReader = new LogfileReader(fileName);
         
         
         analyzeHourlyData();
         analyzeDailyData();
+        analyzeMonthlyData();
     }
 
     /**
@@ -51,6 +57,27 @@ public class LogAnalyzer
             int day = dayEntry.getDay();
             dayCounts[day]++;   
         }   
+        
+    }
+    
+    public void analyzeMonthlyData(){
+        
+     while (monthReader.hasNext()){
+         
+         LogEntry monthEntry = monthReader.next();
+         int month = monthEntry.getMonth();
+         monthCounts[month]++;
+         
+        }
+     
+    }
+    
+    public void printAccessesPerMonth() {
+        
+        for (int i = 1; i < monthCounts.length; i++) {
+            
+            System.out.println("Month #" + i + ": " + monthCounts[i]);
+        }
         
     }
     
