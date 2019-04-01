@@ -9,6 +9,10 @@ public class LogAnalyzer
     private int[] hourCounts;
     private int [] dayCounts;
     private int[] monthCounts;
+    private int[] yearCounts;
+    
+    private int minYear;
+    private int maxYear;
     
     // Use a LogfileReader to access the data.
     private LogfileReader hourReader;
@@ -26,15 +30,20 @@ public class LogAnalyzer
         hourCounts = new int[24];
         dayCounts = new int[32];
         monthCounts = new int[13];
+        
+        
+        
         // Create the hourReader to obtain the data.
         hourReader = new LogfileReader(fileName);
         dayReader = new LogfileReader(fileName);
         monthReader = new LogfileReader(fileName);
+        yearReader = new LogfileReader(fileName);
         
         
         analyzeHourlyData();
         analyzeDailyData();
         analyzeMonthlyData();
+        analyzeYearlyData();
     }
 
     /**
@@ -70,6 +79,47 @@ public class LogAnalyzer
          
         }
      
+    }
+    
+    public void analyzeYearlyData() {
+        
+        int minYear = -5;
+        int maxYear = 0;
+        
+        while (yearReader.hasNext()) {
+            
+            LogEntry yearEntry = yearReader.next();
+            int year = yearEntry.getYear();
+            
+            if (minYear == -5) {
+                minYear = year;
+            }
+            
+            if (year < minYear){
+             minYear = year;   
+            }
+            
+            if (year > maxYear){
+             maxYear = year;   
+            }
+        }
+        
+        this.minYear = minYear;
+        this.maxYear = maxYear;
+        
+    }
+    
+    
+    public void printAverageAccessesPerMonth() {
+        
+        int yearSpan = (maxYear - minYear) + 1;
+        
+        for (int i = 1; i < monthCounts.length; i++) {
+            
+        System.out.println("Average Accesses Per Month:");
+        System.out.println("Month #" + i + ": " + (float)monthCounts[i]/yearSpan);
+        }
+        
     }
     
     public void printTotalAccessesPerMonth() {
@@ -118,6 +168,25 @@ public class LogAnalyzer
         }    
         // returns the earliest hour with the largest count.
         return busiestDay;
+    }
+    
+    public int busiestMonth() {
+     
+     int busiestMonth = 0;
+     int mostAccesses = -5;
+     
+     for (int i = 1; i < monthCounts.length; i++) {
+         
+         if (monthCounts[i] > mostAccesses) {
+             busiestMonth = i;
+             mostAccesses = monthCounts[i];
+            }
+         
+         
+        }
+        
+       return busiestMonth;
+        
     }
     
     public int quietestDay() {
